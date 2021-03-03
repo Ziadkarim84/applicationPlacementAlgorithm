@@ -1,0 +1,54 @@
+# depslib dependency file v1.0
+1614526629 source:e:\books\project\generatesamples.cpp
+	<bits/stdc++.h>
+	"generateSamples.h"
+	"pgsaa.h"
+
+1614526638 e:\books\project\generatesamples.h
+	<bits/stdc++.h>
+	"pgsaa.h"
+
+1614526613 e:\books\project\pgsaa.h
+	<bits/stdc++.h>
+	"generateSamples.h"
+
+1614521536 source:e:\books\project\shortestpath.cpp
+	<limits.h>
+	<stdio.h>
+
+1614722474 source:e:\books\applicationplacementalgorithm\generatesamples.cpp
+	"generateSamples.h"
+
+1614718888 e:\books\applicationplacementalgorithm\generatesamples.h
+	<bits/stdc++.h>
+
+1614713086 e:\books\applicationplacementalgorithm\pgsaa.h
+	<bits/stdc++.h>
+	"G-Map.h"
+	"generateSamples.h"
+	"shortestPath.h"
+
+1614713091 source:e:\books\applicationplacementalgorithm\main.cpp
+	<bits/stdc++.h>
+	"shortestPath.h"
+	"generateSamples.h"
+	"pgsaa.h"
+
+1614722667 e:\books\applicationplacementalgorithm\shortestpath.h
+	<bits/stdc++.h>
+
+1614722635 source:e:\books\applicationplacementalgorithm\shortestpath.cpp
+	"shortestPath.h"
+
+1614722590 source:e:\books\applicationplacementalgorithm\pgsaa.cpp
+	"pgsaa.h"
+
+1614758924 source:e:\books\applicationplacementalgorithm\g-map.cpp
+	<bits/stdc++.h>
+	"G-Map.h"
+	"generateSamples.h"
+
+1614719116 e:\books\applicationplacementalgorithm\g-map.h
+	<bits/stdc++.h>
+	"generateSamples.h"
+
