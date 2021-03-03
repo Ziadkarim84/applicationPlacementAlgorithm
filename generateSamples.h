@@ -27,8 +27,7 @@ struct Sample{
     vector<Scenario> scenario;
 };
 
-
-void perTimeSlot();
+void perTimeSlot(vector <Sample> sample,int locationLimit, int energyLimit, int requestSizeLimit);
 vector<Sample> multipleSamples();
 void printSample(vector <Sample> sample);
 

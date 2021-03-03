@@ -1,11 +1,7 @@
 #include "generateSamples.h"
 
-
-int locationLimit = 10;
-int energyLimit = 10;
 int totalNumberOfServers = 3;
 int totalNumberOfUsers = 2;
-int requestSizeLimit = 10;
 int numberOfScenario = 1;
 int totalNumberOfSamples = 1;
 int totalNumberOfScenarios= 1;
@@ -54,8 +50,9 @@ int randomNumber(int n){
 }
 
 
-vector<Server> generateServers(){
+vector<Server> generateServers(int locationLimit, int energyLimit){
     //int numberOfServers = randomNumber(totalNumberOfServers);
+
     vector<Server> setOfServers;
 
     for(int i = 0; i<totalNumberOfServers; i++){
@@ -76,7 +73,7 @@ int generateNumberOfUsers(){
     return totalNumberOfUsers;
 }
 
-Scenario generateScenario(int numberOfUsers){
+Scenario generateScenario(int numberOfUsers,int locationLimit, int requestSizeLimit ){
 
     Scenario newScenario;
 
@@ -91,10 +88,10 @@ Scenario generateScenario(int numberOfUsers){
     return newScenario;
 }
 
-vector<Scenario> generateScenarios(int numberOfUsers, int numberOfScenario){
+vector<Scenario> generateScenarios(int numberOfUsers, int numberOfScenario,int locationLimit, int requestSizeLimit){
 
     vector<Scenario> setOfScenarios;
-    Scenario newScenario = generateScenario(numberOfUsers);
+    Scenario newScenario = generateScenario(numberOfUsers,locationLimit, requestSizeLimit);
     for(int i=0 ; i< numberOfScenario ; i++){
         setOfScenarios.push_back(newScenario);
     }
@@ -102,26 +99,29 @@ vector<Scenario> generateScenarios(int numberOfUsers, int numberOfScenario){
     return setOfScenarios;
 }
 
-Sample generateSample(){
+Sample generateSample(int locationLimit,int energyLimit, int requestSizeLimit){
 
     Sample newSample;
-    newSample.server = generateServers();
+    newSample.server = generateServers(locationLimit,energyLimit);
     newSample.numberOfUsers = generateNumberOfUsers();
-    newSample.scenario = generateScenarios(newSample.numberOfUsers, numberOfScenario);
+    newSample.scenario = generateScenarios(newSample.numberOfUsers, numberOfScenario,locationLimit,requestSizeLimit);
 
     return newSample;
 }
 
 
 vector<Sample> multipleSamples(){
+    int locationLimit = 10;
+    int energyLimit = 10;
+    int requestSizeLimit = 10;
     int H = totalNumberOfSamples;
     int L = totalNumberOfScenarios;
     numberOfScenario = L;
     vector<Sample> sample;
     for(int i= 0; i<H;i++){
-        sample.push_back(generateSample());
-
+        sample.push_back(generateSample(locationLimit,energyLimit,requestSizeLimit));
     }
+    perTimeSlot(sample,locationLimit,energyLimit,requestSizeLimit);
     return sample;
 
 }
@@ -129,7 +129,7 @@ vector<Sample> multipleSamples(){
 
 //These function is for per timeslot
 
-vector<User> randomizeUserlocation(vector<User> user){
+vector<User> randomizeUserlocation(vector<User> user, int locationLimit){
 
     for(int i=0;i<user.size(); i++) {
         user[i].X = randomNumber(locationLimit);
@@ -138,25 +138,22 @@ vector<User> randomizeUserlocation(vector<User> user){
     return user;
 }
 
-Sample randomizeUserlocationPerSample(Sample sample){
+Sample randomizeUserlocationPerSample(Sample sample, int locationLimit){
     for(int i=0; i<sample.scenario.size();i++){
-        sample.scenario[i].user = randomizeUserlocation(sample.scenario[i].user);
+        sample.scenario[i].user = randomizeUserlocation(sample.scenario[i].user, locationLimit);
     }
     return sample;
 }
 
 //These is a example function
-void perTimeSlot(){
+void perTimeSlot(vector <Sample> sample, int locationLimit, int energyLimit, int requestSizeLimit){
     //T is total number of time slots
     int T = 60;
-
-    //This should be same as the populated graph input function mutipleSamples()
-    vector<Sample> sample;
 
     //These two nested loops will randomize the user location per time slot.
     for(int i= 0;i <T; i++){
         for(int j=0; j< sample.size();j++){
-            randomizeUserlocationPerSample(sample[j]);
+            randomizeUserlocationPerSample(sample[j],locationLimit);
         }
     }
 }

@@ -14,7 +14,7 @@ int main()
 
     vector<Sample> sample = multipleSamples();
     //printSample(sample);
-    pgsaa(sample,1);
-   // pgsaa(sample,0);
+    pgsaa(sample,1); //for first iteration
+    pgsaa(sample,0); // for second iteration
     return 0;
 }

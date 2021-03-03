@@ -7,7 +7,23 @@ const int totalNumberOfServers = 3;
 int userAssignmentGraph[numberOfTimeSlots+1][totalNumberOfServers][totalNumberOfServers]; // (total time slot +1)* (total Number of servers) *total Number of servers . Change this number as necessary.
 int relocationCost[totalNumberOfServers][totalNumberOfServers]; //Double check this value.There needs to be logic behind it.
 
+vector<int> objectiveFunction(){
+    int sum =0 ;
+    for(int i=0 ; i<totalNumberOfUsers ; i++){
+        for(int j=0 ; j<totalNumberOfServers; j++){
+            sum+= X[i][j].(gamma.user[i].requestSize)/distance[i][j]);
+        }
+    }
+    int sum2 = 0;
 
+    for(int i=0 ; i<totalNumberOfScenarios ; i++){
+        for(t = 0 ; t< numberOfTimeSlots ; t++){
+            sum2+=c_t(X[k][t],Y[k][t],userLocationHistory(user));
+        }
+    }
+    sum2/=totalNumberOfScenarios;
+    return sum1+sum2;
+}
 
 
 void initializeUserAssignmentGraphWithDummyBigValue(){
@@ -76,8 +92,21 @@ void createUserAssignmentGraph(vector<Server> server, User user, int numberOfTim
 
 //Need to modify input parameter, implement funciton body
 int averageCostForAllScenarioForAServer(){
+    int sum = 0;
+    for(int j=0 ; j<shortestPathsToServer[m].size() ; j++){
+        sum += shortestPathsToServer[m][j];
+    }
+  return sum/totalNumberOfServers;
+}
 
-  return 0 ;
+int weightedaverageCostForAllScenarioForAServer(int weights[totalNumberOfServers]){
+    int sum = 0;
+    int weightsum = 0;
+    for(int j=0 ; j<shortestPathsToServer[m].size() ; j++){
+        sum += shortestPathsToServer[m][j]*weights[i];
+        weightsum+ = weights[i];
+    }
+  return sum/weightsum;
 }
 
 
@@ -156,18 +185,11 @@ void secondIteration(vector <int> Z_K){
 
 }
 
-
-//Pass Parameter as needed(passed)
 void pgsaa(vector<Sample> sample,bool iteration){
-
-
-    /**********duplicate variables declared , need to handle it later**************/
-    int totalNumberOfUsers = 2;
-    int numberOfScenario = 1;
-
   vector<Scenario> scenario;
   vector<User> user;
   vector <int> W_K;
+  vector <int> W_K_main;
 
     cout << "Total number of users: " << totalNumberOfUsers << endl;
   for(int k=0 ; k < numberOfSamples; k++) {
@@ -198,14 +220,12 @@ void pgsaa(vector<Sample> sample,bool iteration){
 
         for(int m = 1; m<=totalNumberOfServers; m++){
             //Average Cost for all scenario for a particualar server
-           // avergaecost = averageCostForAllScenarioForAServer();
-             int sum = 0;
-           for(int j=0 ; j<shortestPathsToServer[m].size() ; j++){
-                sum += shortestPathsToServer[m][j];
-           }
-           int avg = sum/numberOfScenario;
+
+           int avg = averageCostForAllScenarioForAServer();
            W_K.push_back(avg);
 
+           int weightedavg = weightedaverageCostForAllScenarioForAServer();
+            W_K_main.push_back(weightedavg);
      }
 
      //Probably Need to calculate W_K(line 13) here.
@@ -221,7 +241,8 @@ void pgsaa(vector<Sample> sample,bool iteration){
    // generateLargeSample();
   }
   else{
-    //zStar = objectiveValue
+    vector<int> zStar;
+    zStar = objectiveFunction();
   }
   }
   cout << "done" << endl;
